@@ -1,36 +1,30 @@
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Union
-from pydantic import PostgresDsn, field_validator
+from pydantic import PostgresDsn, field_validator, computed_field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 
 class Settings(BaseSettings):
-    pass
-
     PROJECT_NAME: str
-
     POSTGRES_SERVER: str
     POSTGRES_USER: str
     POSTGRES_PASSWORD: str
     POSTGRES_DB: str
     POSTGRES_PORT: int
-    SQLALCHEMY_DATABASE_URI: Optional[PostgresDsn] = None
 
-    @classmethod
-    @field_validator("SQLALCHEMY_DATABASE_URI")
-    def create_db_dsn(cls, v: Optional[str], values: Dict[str, Any]) -> Any:
-        if isinstance(v, str):
-            return v
-        return PostgresDsn.build(
+    @computed_field
+    @property
+    def SQLALCHEMY_DATABASE_URI(self) -> Any:
+        return str(PostgresDsn.build(
             scheme="postgresql+psycopg",
-            user=values.get("POSTGRES_USER"),
-            password=values.get("POSTGRES_PASSWORD"),
-            host=values.get("POSTGRES_SERVER"),
-            port=values.get('POSTGRES_PORT'),
-            path=f"/{values.get('POSTGRES_DB') or ''}",
-        )
+            username=self.POSTGRES_USER,
+            password=self.POSTGRES_PASSWORD,
+            host=self.POSTGRES_SERVER,
+            port=self.POSTGRES_PORT,
+            path=self.POSTGRES_DB,
+        ))
 
     class Config:
         case_sensitive = True
