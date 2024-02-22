@@ -12,5 +12,3 @@ class Network(Base):
     network = Column(String, unique=True)
     create_at = Column(DateTime(timezone=True), server_default=func.now())
     last_update = Column(DateTime(timezone=True), onupdate=func.now())
-
-

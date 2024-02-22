@@ -1,7 +1,7 @@
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Union
-from pydantic import PostgresDsn, field_validator, computed_field
-from pydantic_settings import BaseSettings, SettingsConfigDict
+from typing import Any
+from pydantic import PostgresDsn, computed_field
+from pydantic_settings import BaseSettings
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 

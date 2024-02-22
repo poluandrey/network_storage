@@ -2,11 +2,11 @@ from fastapi import Depends
 from typing import Generator, Annotated
 from sqlalchemy.orm import Session
 
-from src.database.engine import engine
+from src.database.base import Base
 
 
 def get_db() -> Generator:
-    with Session(engine) as session:
+    with Session(Base.engine) as session:
         yield session
 
 
