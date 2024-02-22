@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "networkstorage"
+version = "0.1.0"
+description = "API for network storage service"
+authors = ["apolumestny <anpolumestny@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+sqlalchemy = "^2.0.27"
+uvicorn = "^0.27.1"
+fastapi = "^0.109.2"
+pydantic-settings = "^2.2.1"
+alembic = "^1.13.1"
+psycopg2-binary = "^2.9.9"
+psycopg = "^3.1.18"
+psycopg-binary = "^3.1.18"
+
+
+[tool.poetry.group.test.dependencies]
+flake8 = "^7.0.0"
+isort = "^5.13.2"
+mypy = "^1.8.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
