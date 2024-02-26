@@ -5,6 +5,6 @@ from src.core.config import settings
 
 
 class Base(DeclarativeBase):
-    engine = create_engine(url=settings.SQLALCHEMY_DATABASE_URI)
+    engine = create_engine(settings.SQLALCHEMY_DATABASE_URI)
     db_session = scoped_session(sessionmaker(bind=engine))
     query = db_session.query_property()

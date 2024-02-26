@@ -15,6 +15,7 @@ alembic = "^1.13.1"
 psycopg2-binary = "^2.9.9"
 psycopg = "^3.1.18"
 psycopg-binary = "^3.1.18"
+ipaddresses = "^0.0.2"
 
 
 [tool.poetry.group.test.dependencies]

@@ -111,6 +111,17 @@ pycodestyle = ">=2.11.0,<2.12.0"
 pyflakes = ">=3.2.0,<3.3.0"
 
 [[package]]
+name = "future"
+version = "1.0.0"
+description = "Clean single-source support for Python 3 and 2"
+optional = false
+python-versions = ">=2.6, !=3.0.*, !=3.1.*, !=3.2.*"
+files = [
+    {file = "future-1.0.0-py3-none-any.whl", hash = "sha256:929292d34f5872e70396626ef385ec22355a1fae8ad29e1a734c3e43f9fbc216"},
+    {file = "future-1.0.0.tar.gz", hash = "sha256:bd2968309307861edae1458a4f8a4f3598c03be43b97521076aebf5d94c07b05"},
+]
+
+[[package]]
 name = "greenlet"
 version = "3.0.3"
 description = "Lightweight in-process concurrent programming"
@@ -202,6 +213,21 @@ files = [
     {file = "idna-3.6-py3-none-any.whl", hash = "sha256:c05567e9c24a6b9faaa835c4821bad0590fbb9d5779e7caa6e1cc4978e7eb24f"},
     {file = "idna-3.6.tar.gz", hash = "sha256:9ecdbbd083b06798ae1e86adcbfe8ab1479cf864e4ee30fe4e46a003d12491ca"},
 ]
+
+[[package]]
+name = "ipaddresses"
+version = "0.0.2"
+description = "Shows your private and public IP addresses."
+optional = false
+python-versions = "*"
+files = [
+    {file = "ipaddresses-0.0.2-py2.py3-none-any.whl", hash = "sha256:8f9bf9853ce306fd4ab2c3748bc4bbb10e144e4e8dbf84a7514b91a9e616c395"},
+    {file = "ipaddresses-0.0.2.zip", hash = "sha256:28b8b835aa3df01819a5e0e3af09f8bdbe01dbbc505f4b43e45d23e7f94f0e03"},
+]
+
+[package.dependencies]
+colorama = "*"
+future = "*"
 
 [[package]]
 name = "isort"
@@ -874,4 +900,4 @@ standard = ["colorama (>=0.4)", "httptools (>=0.5.0)", "python-dotenv (>=0.13)",
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "de3ce4c4509dde6e7105872d6f2b8b869a116987c45e530da8750fd8404792fa"
+content-hash = "862c745e4410f673e67c08b1ad351b7e63c1fe1a98fdbd8ad8732cb9d3b3864c"
