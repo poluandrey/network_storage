@@ -8,6 +8,7 @@ class NetworkBase(BaseModel):
     id: int
     network: str
     parent_id: int | None = None
+    comment: str | None = None
     create_at: datetime
     last_update: datetime | None = None
 
@@ -28,3 +29,4 @@ class NetworkRead(BaseModel):
 class NetworkCreate(BaseModel):
     network: IPv4Network
     parent_id: int | None
+    comment: str | None = None

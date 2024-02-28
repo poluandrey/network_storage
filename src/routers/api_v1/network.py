@@ -31,3 +31,15 @@ async def network_read(session: SessionDep, network: NetworkCreate):
 @router.delete(path='/{id}', status_code=status.HTTP_200_OK)
 async def network_delete(session: SessionDep, id: int):
     await network_crud.network_delete(session, id)
+
+
+@router.post(path='/{id}/split/by_host', response_model=List[NetworkBase])
+async def network_split_by_host(session: SessionDep, id: int):
+    networks = await network_crud.network_split_by_host(session, id)
+    return networks
+
+
+@router.post(path='/{id}/split', response_model=List[NetworkBase])
+async def network_split(session: SessionDep, id: int, network_prefix: int):
+    networks = await network_crud.network_split(session, id, network_prefix)
+    return networks

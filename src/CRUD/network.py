@@ -1,6 +1,7 @@
 import ipaddress
 
 from fastapi import HTTPException, status
+from sqlalchemy import insert
 
 from src.depends import SessionDep
 from src.models.network import Network
@@ -13,7 +14,7 @@ async def networks_get(session: SessionDep, offset: int = 0, limit: int = 100):
 
 
 async def network_read(session: SessionDep, id: int):
-    network = session.query(Network).filter(Network.id == id).first()
+    network = session.get(Network, id)
 
     if not network:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='network does not found')
@@ -66,13 +67,37 @@ async def network_create(session: SessionDep, network: NetworkCreate):
 
 
 async def network_delete(session: SessionDep, network_id: int):
-    print(network_id)
+
     network = session.get(Network, network_id)
+
     if not network:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail='network does not exists'
+            detail='network does not found'
         )
     session.delete(network)
     session.commit()
     return
+
+
+async def network_split_by_host(session: SessionDep, id: int):
+    parent_network = session.get(Network, id)
+
+    if not parent_network:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='network does not found')
+
+    parent_network_interface = ipaddress.IPv4Network(parent_network.network)
+    hosts = list(parent_network_interface.hosts())
+
+    if not hosts:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail='could not split by host')
+
+    hosts_obj = [NetworkCreate(network=host, parent_id=id) for host in hosts]
+    created_hosts = session.scalar(insert(Network).returning(Network), hosts_obj)
+
+    return created_hosts
+
+
+async def network_split(session: SessionDep, id: int, network_prefix: int):
+
+    return None

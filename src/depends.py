@@ -1,4 +1,4 @@
-from fastapi import Depends
+from fastapi import Depends, HTTPException, status
 from typing import Generator, Annotated
 from sqlalchemy.orm import Session
 
@@ -12,3 +12,14 @@ def get_db() -> Generator:
 
 
 SessionDep = Annotated[Session, Depends(get_db)]
+
+
+def get_obj_or_raise_error(session: SessionDep, id: int, model):
+    obj = session.get(model, id)
+
+    if not obj:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='Object not found')
+    return obj
+
+
+GetObjectDep = Annotated[Base, Depends(get_obj_or_raise_error)]
