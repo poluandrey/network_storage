@@ -3,6 +3,7 @@ from typing import Generator, Annotated
 from sqlalchemy.orm import Session
 
 from src.database.base import Base
+from src.models.network import Network
 
 
 def get_db() -> Generator:
@@ -14,12 +15,14 @@ def get_db() -> Generator:
 SessionDep = Annotated[Session, Depends(get_db)]
 
 
-def get_obj_or_raise_error(session: SessionDep, id: int, model):
-    obj = session.get(model, id)
+class GetNetworkOr404:
 
-    if not obj:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='Object not found')
-    return obj
+    async def __call__(self, id: int, session: SessionDep):
+        network = session.get(Network, id)
+        if not network:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='network does not exists')
+
+        return network
 
 
-GetObjectDep = Annotated[Base, Depends(get_obj_or_raise_error)]
+GetNetworkOr404Dep = Depends(GetNetworkOr404())

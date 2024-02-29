@@ -2,7 +2,8 @@ from typing import List
 
 from fastapi import APIRouter, status
 
-from src.depends import SessionDep
+from src.depends import SessionDep, GetNetworkOr404Dep
+from src.models.network import Network
 from src.schemas.network import NetworkBase, NetworkRead, NetworkCreate
 from src.CRUD import network as network_crud
 
@@ -29,17 +30,17 @@ async def network_read(session: SessionDep, network: NetworkCreate):
 
 
 @router.delete(path='/{id}', status_code=status.HTTP_200_OK)
-async def network_delete(session: SessionDep, id: int):
-    await network_crud.network_delete(session, id)
+async def network_delete(session: SessionDep, network: Network = GetNetworkOr404Dep):
+    await network_crud.network_delete(session, network)
 
 
 @router.post(path='/{id}/split/by_host', response_model=List[NetworkBase])
-async def network_split_by_host(session: SessionDep, id: int):
-    networks = await network_crud.network_split_by_host(session, id)
+async def network_split_by_host(session: SessionDep, network: Network = GetNetworkOr404Dep):
+    networks = await network_crud.network_split_by_host(session, network)
     return networks
 
 
 @router.post(path='/{id}/split', response_model=List[NetworkBase])
-async def network_split(session: SessionDep, id: int, network_prefix: int):
-    networks = await network_crud.network_split(session, id, network_prefix)
-    return networks
+async def network_split(network_prefix: int, session: SessionDep, network: Network = GetNetworkOr404Dep):
+    networks = await network_crud.network_split(session, network, network_prefix)
+    # return networks
