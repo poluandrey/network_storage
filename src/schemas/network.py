@@ -1,7 +1,8 @@
 from datetime import datetime
-from pydantic import BaseModel
-from pydantic.networks import IPv4Network
 from typing import List
+
+from pydantic import BaseModel
+from pydantic import networks
 
 
 class NetworkBase(BaseModel):
@@ -27,6 +28,6 @@ class NetworkRead(BaseModel):
 
 
 class NetworkCreate(BaseModel):
-    network: IPv4Network
+    network: networks.IPv4Network
     parent_id: int | None
     comment: str | None = None

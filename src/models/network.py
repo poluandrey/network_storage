@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, ForeignKeyConstraint
+from sqlalchemy import Column, DateTime, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 
@@ -28,8 +28,8 @@ class Network(Base):
         back_populates='sub_networks'
     )
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.network
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f'{self.__class__.__name__}: <{self.network}>'

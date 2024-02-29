@@ -5,7 +5,7 @@ from sqlalchemy.dialects.postgresql import insert
 
 from src.depends import SessionDep
 from src.models.network import Network
-from src.schemas.network import NetworkRead, NetworkCreate
+from src.schemas.network import NetworkCreate, NetworkRead
 
 
 async def networks_get(session: SessionDep, offset: int = 0, limit: int = 100):
@@ -13,12 +13,7 @@ async def networks_get(session: SessionDep, offset: int = 0, limit: int = 100):
     return networks.all()
 
 
-async def network_read(session: SessionDep, id: int):
-    network = session.get(Network, id)
-
-    if not network:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='network does not found')
-
+async def network_read(network: Network):
     return NetworkRead(
         id=network.id,
         network=network.network,
@@ -67,6 +62,11 @@ async def network_create(session: SessionDep, network: NetworkCreate):
 
 
 async def network_delete(session: SessionDep, network: Network):
+    if network.sub_networks:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail='could not delete networks with subnetworks')
+
     session.delete(network)
     session.commit()
     return
@@ -79,7 +79,7 @@ async def network_split_by_host(session: SessionDep, network: Network):
     if not hosts:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail='could not split by host')
 
-    hosts_obj = [NetworkCreate(network=host, parent_id=id) for host in hosts]
+    hosts_obj = [NetworkCreate(network=host, parent_id=network.id) for host in hosts]
     created_hosts = session.scalars(insert(Network).on_conflict_do_nothing().returning(Network), hosts_obj).all()
 
     if not created_hosts:
@@ -107,6 +107,21 @@ async def network_split(session: SessionDep, network: Network, network_prefix: i
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail='invalid network prefix')
 
     new_networks_obj = [NetworkCreate(network=new_network, parent_id=network.id) for new_network in new_networks]
-    created_networks = session.scalar(insert(Network).returning(Network), new_networks_obj)
+    created_networks = session.scalars(
+        insert(Network).on_conflict_do_nothing().returning(Network), new_networks_obj
+    ).all()
+    print(created_networks)
+
+    session.commit()
+    if not created_networks:
+        return []
+
+    if isinstance(created_networks, Network):
+        session.refresh(created_networks)
+        created_hosts = [created_networks]
+        return created_hosts
+
+    for network in created_networks:
+        session.refresh(network)
 
     return created_networks
