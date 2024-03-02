@@ -1,19 +1,22 @@
-from typing import List
+from typing import List, Annotated
 
-from fastapi import APIRouter, status
+from fastapi import APIRouter, status, Depends
+from fastapi.security import OAuth2PasswordBearer
 
-from src.depends import SessionDep, GetNetworkOr404Dep
+from src.depends import SessionDep, GetNetworkOr404Dep, get_db, get_params
 from src.models.network import Network
 from src.schemas.network import NetworkBase, NetworkRead, NetworkCreate
 from src.CRUD import network as network_crud
+from src.auth import AuthRequiredDep, oauth2_scheme
+
+router = APIRouter(
+  dependencies=[Depends(oauth2_scheme)]
+         )
 
 
-router = APIRouter()
-
-
-@router.get('/', response_model=List[NetworkBase | None])
-async def get_networks(session: SessionDep, offset: int = 0, limit: int = 100) -> List[NetworkBase | None]:
-    networks = await network_crud.networks_get(session=session, offset=offset, limit=limit)
+@router.get('/', response_model=List[NetworkBase | None],)
+async def get_networks(session=Depends(get_db), params=Depends(get_params)) -> List[NetworkBase | None]:
+    networks = await network_crud.networks_get(session=session, **params)
     return networks
 
 

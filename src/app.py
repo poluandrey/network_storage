@@ -7,4 +7,5 @@ app = FastAPI(
     title=settings.PROJECT_NAME,
 )
 
+
 app.include_router(router, prefix='/api/v1')
