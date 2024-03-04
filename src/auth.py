@@ -1,17 +1,17 @@
+from datetime import datetime, timezone, timedelta
 from typing import Annotated
 
 from fastapi import Depends, status, HTTPException
 from fastapi.security import OAuth2PasswordBearer
 from passlib.context import CryptContext
 from sqlalchemy.orm import Session
-from jose import jwt
+from jose import jwt, JWTError
 
 from src.models.user import User
-from src.schemas.auth import Token
 from src.core.config import settings
 
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth")
 
 
 AuthRequiredDep = Annotated[str, Depends(oauth2_scheme)]
@@ -30,7 +30,6 @@ def get_password_hash(password):
 
 def authenticate_user(session: Session, username: str, password: str):
     user = session.query(User).filter(User.username == username).first()
-
     if not user:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail='user does not exists')
 
@@ -42,10 +41,26 @@ def authenticate_user(session: Session, username: str, password: str):
 
 def create_access_token(data: dict):
     to_encode = data.copy()
-    to_encode.update({'exp': settings.ACCESS_TOKEN_EXPIRE_MINUTES})
+    print(data)
+    to_encode.update({'exp': datetime.now(timezone.utc) + timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)})
+    print(to_encode)
     encoded_jwt = jwt.encode(to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
     return encoded_jwt
 
 
+async def verify_token(token: Annotated[str, Depends(oauth2_scheme)]) -> bool:
+    credentials_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Could not validate credentials",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+    try:
+        payload = jwt.decode(token, settings.SECRET_KEY, algorithms=settings.ALGORITHM)
+        username: str = payload.get('sub')
+        if username is None:
+            raise credentials_exception
+    except JWTError:
+        raise credentials_exception
+    return True
 
 
