@@ -12,4 +12,4 @@ router = APIRouter()
 def token(session: SessionDep, form_data=Depends(OAuth2PasswordRequestForm)):
     user = authenticate_user(session, username=form_data.username, password=form_data.password)
     token = create_access_token(data={'sub': user.username})
-    return Token(token=token, token_type='bearer')
+    return Token(access_token=token, token_type='bearer')

@@ -9,6 +9,7 @@ from src.schemas.network import NetworkBase, NetworkRead, NetworkCreate
 from src.CRUD import network as network_crud
 from src.auth import AuthRequiredDep, oauth2_scheme, verify_token
 
+
 router = APIRouter(
   dependencies=[Depends(oauth2_scheme)]
          )
