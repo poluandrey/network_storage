@@ -15,6 +15,10 @@ alembic = "^1.13.1"
 psycopg2-binary = "^2.9.9"
 psycopg = "^3.1.18"
 psycopg-binary = "^3.1.18"
+ipaddresses = "^0.0.2"
+python-multipart = "^0.0.9"
+python-jose = {extras = ["cryptography"], version = "^3.3.0"}
+passlib = {extras = ["bcrypt"], version = "^1.7.4"}
 
 
 [tool.poetry.group.test.dependencies]

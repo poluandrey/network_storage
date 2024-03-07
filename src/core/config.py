@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Any
+
 from pydantic import PostgresDsn, computed_field
 from pydantic_settings import BaseSettings
 
@@ -14,9 +14,13 @@ class Settings(BaseSettings):
     POSTGRES_DB: str
     POSTGRES_PORT: int
 
+    SECRET_KEY: str
+    ALGORITHM: str
+    ACCESS_TOKEN_EXPIRE_MINUTES: int
+
     @computed_field
     @property
-    def SQLALCHEMY_DATABASE_URI(self) -> Any:
+    def SQLALCHEMY_DATABASE_URI(self) -> str:
         return str(PostgresDsn.build(
             scheme="postgresql+psycopg",
             username=self.POSTGRES_USER,
@@ -32,3 +36,4 @@ class Settings(BaseSettings):
 
 
 settings = Settings()
+print(settings.ACCESS_TOKEN_EXPIRE_MINUTES)
