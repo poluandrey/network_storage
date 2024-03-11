@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Request
 from fastapi.security import OAuth2PasswordRequestForm
 
 from src.depends import SessionDep
@@ -9,7 +9,7 @@ router = APIRouter()
 
 
 @router.post('/')
-def token(session: SessionDep, form_data=Depends(OAuth2PasswordRequestForm)):
+def token(request: Request, session: SessionDep, form_data=Depends(OAuth2PasswordRequestForm)):
     user = authenticate_user(session, username=form_data.username, password=form_data.password)
     token = create_access_token(data={'sub': user.username})
     return Token(access_token=token, token_type='bearer')

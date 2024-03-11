@@ -13,9 +13,9 @@ logger = logging.getLogger('network')
 
 
 async def networks_get(session: SessionDep, request_id: str, offset: int = 0, limit: int = 100):
-    logger.debug(f'[{request_id}] start handling')
+    logger.info(f'[{request_id}] start handling')
     networks = session.query(Network).offset(offset).limit(limit=limit)
-    logger.debug(f'[{request_id}] finished handling')
+    logger.info(f'[{request_id}] finished handling')
     return networks.all()
 
 

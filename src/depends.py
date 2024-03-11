@@ -11,6 +11,7 @@ from src.core.logger import logger
 def get_request_id(request: Request) -> str:
     return request.state.request_id
 
+
 def get_db() -> Generator:
     yield Base.db_session
 

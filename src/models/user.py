@@ -10,7 +10,6 @@ class User(Base):
     is_active = Column(Boolean)
     last_login = Column(DateTime(timezone=True))
 
-
     def get_password_hash(self):
         pass
 
