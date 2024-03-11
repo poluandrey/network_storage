@@ -31,3 +31,8 @@ class NetworkCreate(BaseModel):
     network: networks.IPv4Network
     parent_id: int | None
     comment: str | None = None
+
+
+class NetworkSplit(BaseModel):
+    networks: List[NetworkBase | None] = []
+    count: int
