@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, Request
 from fastapi.security import OAuth2PasswordRequestForm
 
 from src.depends import SessionDep
-from src.auth import authenticate_user, create_access_token
+from src.services.auth import authenticate_user, create_access_token
 from src.schemas.auth import Token
 
 router = APIRouter()
