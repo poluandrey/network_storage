@@ -1,9 +1,10 @@
 import uuid
 
-from fastapi import HTTPException, status
-from jose import jwt, JWTError
-from starlette.authentication import AuthenticationBackend, UnauthenticatedUser, AuthenticationError
-from starlette.middleware.base import BaseHTTPMiddleware, RequestResponseEndpoint
+from jose import JWTError, jwt
+from starlette.authentication import (AuthenticationBackend,
+                                      AuthenticationError, UnauthenticatedUser)
+from starlette.middleware.base import (BaseHTTPMiddleware,
+                                       RequestResponseEndpoint)
 from starlette.requests import Request
 from starlette.responses import Response
 
@@ -41,11 +42,15 @@ class JWTAuthMiddleware(AuthenticationBackend):
         self,
         request: Request,
     ) -> Response:
+        print('start authenticate')
         if 'authorization' not in request.headers:
+            print('authorization not found')
             return
 
+        print(request.headers)
         token = request.headers.get('Authorization').split(' ')[-1]
         session = next(get_db())
+
         try:
             auth = jwt.decode(token, settings.SECRET_KEY, algorithms=settings.ALGORITHM)
         except JWTError:

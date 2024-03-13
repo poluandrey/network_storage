@@ -1,6 +1,5 @@
 import ipaddress
 import logging
-import uuid
 
 from fastapi import HTTPException, status
 from sqlalchemy.dialects.postgresql import insert

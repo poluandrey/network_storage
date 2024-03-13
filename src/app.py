@@ -1,10 +1,10 @@
 from fastapi import FastAPI
-from starlette.middleware import Middleware
 from starlette.middleware.authentication import AuthenticationMiddleware
 
 from src.core.config import settings
+from src.middleware.middleware import (JWTAuthMiddleware,
+                                       RequestLoggerMiddleware)
 from src.routers.api_router_v1 import router
-from src.middleware.middleware import RequestLoggerMiddleware, JWTAuthMiddleware
 
 app = FastAPI(
     title=settings.PROJECT_NAME,

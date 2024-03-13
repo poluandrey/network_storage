@@ -1,11 +1,11 @@
 from typing import Annotated, Generator
 
-from fastapi import Depends, HTTPException, status, Request
+from fastapi import Depends, HTTPException, Request, status
 from sqlalchemy.orm import Session
 
+from src.core.logger import logger
 from src.database.base import Base
 from src.models.network import Network
-from src.core.logger import logger
 
 
 def get_request_id(request: Request) -> str:
@@ -35,6 +35,3 @@ GetNetworkOr404Dep = Depends(GetNetworkOr404())
 
 def get_params(offset: int = 0, limit: int = 100):
     return {'offset': offset, 'limit': limit}
-
-
-

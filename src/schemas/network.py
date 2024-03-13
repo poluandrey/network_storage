@@ -1,8 +1,7 @@
 from datetime import datetime
 from typing import List
 
-from pydantic import BaseModel
-from pydantic import networks
+from pydantic import BaseModel, networks
 
 
 class NetworkBase(BaseModel):
