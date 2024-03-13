@@ -24,10 +24,12 @@ class RequestLoggerMiddleware(BaseHTTPMiddleware):
         request.state.request_id = request_uuid
         url = request.url
         query_params = request.query_params
+
         if isinstance(request.user, UnauthenticatedUser):
             username = 'anonim'
         else:
             username = request.user.username
+
         logger.info(
             f'[{request_uuid}] request url: {url} query params: {query_params} user: {username} headers: {request.headers}'
         )
@@ -42,12 +44,9 @@ class JWTAuthMiddleware(AuthenticationBackend):
         self,
         request: Request,
     ) -> Response:
-        print('start authenticate')
         if 'authorization' not in request.headers:
-            print('authorization not found')
             return
 
-        print(request.headers)
         token = request.headers.get('Authorization').split(' ')[-1]
         session = next(get_db())
 
