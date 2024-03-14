@@ -5,7 +5,9 @@ from src.depends import SessionDep
 from src.schemas.auth import Token
 from src.services.auth import authenticate_user, create_access_token
 
-router = APIRouter()
+router = APIRouter(
+    tags=['authentication']
+)
 
 
 @router.post('/')

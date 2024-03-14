@@ -11,7 +11,8 @@ from src.schemas.network import (NetworkBase, NetworkCreate, NetworkRead,
                                  NetworkSplit)
 
 router = APIRouter(
-    dependencies=[Depends(oauth2_scheme)]
+    dependencies=[Depends(oauth2_scheme)],
+    tags=['network']
 )
 
 
