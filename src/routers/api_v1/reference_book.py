@@ -1,47 +1,62 @@
 from typing import List
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, status
 
-from src.depends import get_db, get_params, get_request_id, SessionDep
-from src.schemas.reference_book import ServiceBase, ServiceUpdate
+from src.depends import get_params, get_request_id, SessionDep, GetServiceOr404Dep
+from src.schemas.reference_book import ServiceBase, Service
+from src.CRUD import reference_book
 from src.core.auth import oauth2_scheme
 
 router = APIRouter(
     dependencies=[Depends(oauth2_scheme)],
 )
 
+service_router = APIRouter(
+    prefix='/service'
+)
 
-@router.get('/', response_model=List[ServiceBase], tags=['service'])
+
+@service_router.get('/', response_model=List[Service], tags=['service'])
 async def get_services(
-        session=SessionDep,
+        session: SessionDep,
         params=Depends(get_params),
         request_id=Depends(get_request_id),
 ):
-    pass
+    services = await reference_book.services_get(session=session, request_id=request_id, **params)
+    return services
 
 
-@router.get(path='/{id}', response_model=ServiceBase, tags=['service'])
+@service_router.get(path='/{id}', response_model=Service, tags=['service'])
 async def read_service(
-        id: int,
-        session=SessionDep,
-        params=Depends(get_params),
-        request_id=Depends(get_request_id),
+        service=GetServiceOr404Dep
 ):
-    pass
+    return service
 
 
-@router.post(path='/', response_model=ServiceBase, tags=['service'])
+@service_router.post(path='/', response_model=Service, tags=['service'], status_code=status.HTTP_201_CREATED)
 async def create_service(
-        session=SessionDep,
+        session: SessionDep,
+        service: ServiceBase,
         request_id=Depends(get_request_id),
 ):
-    pass
+    service = await reference_book.service_create(session, request_id, service)
+    return service
 
 
-@router.patch(path='/{id}', tags=['service'])
+@service_router.put(path='/{id}', tags=['service'], response_model=Service)
 async def update_service(
-        id: int,
-        service: ServiceUpdate,
-        session=SessionDep,
+        service_for_update: ServiceBase,
+        session: SessionDep,
+        service=GetServiceOr404Dep,
+        request_id=Depends(get_request_id)
 ):
-    pass
+    service = await reference_book.service_update(session, request_id=request_id, service=service, service_for_update=service_for_update)
+    return service
+
+
+@service_router.delete(path='/{id}', tags=['service'], status_code=status.HTTP_200_OK)
+async def delete_service(session: SessionDep, service_for_delete=GetServiceOr404Dep, request_id=Depends(get_request_id)):
+    await reference_book.service_delete(session, service=service_for_delete, request_id=request_id)
+    return
+
+router.include_router(service_router)
