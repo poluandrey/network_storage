@@ -1,6 +1,6 @@
 from typing import List
 
-from sqlalchemy import Column, Integer, String, DateTime, func, ForeignKey
+from sqlalchemy import Column, Integer, String, DateTime, func, ForeignKey, UniqueConstraint
 from sqlalchemy.orm import Mapped, relationship
 
 from src.database.base import Base
@@ -38,3 +38,5 @@ class NetworkInterface(Base):
     ip_addresses = Column(ForeignKey('network.id'))
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     last_update = Column(DateTime(timezone=True), server_onupdate=func.now())
+
+    __table_args__ = (UniqueConstraint('device_id', 'ip_addresses', name='device_network_unique_constraint'),)

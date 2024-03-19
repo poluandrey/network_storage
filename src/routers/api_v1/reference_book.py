@@ -50,13 +50,23 @@ async def update_service(
         service=GetServiceOr404Dep,
         request_id=Depends(get_request_id)
 ):
-    service = await reference_book.service_update(session, request_id=request_id, service=service, service_for_update=service_for_update)
+    service = await reference_book.service_update(
+        session,
+        request_id=request_id,
+        service=service,
+        service_for_update=service_for_update
+    )
     return service
 
 
 @service_router.delete(path='/{id}', tags=['service'], status_code=status.HTTP_200_OK)
-async def delete_service(session: SessionDep, service_for_delete=GetServiceOr404Dep, request_id=Depends(get_request_id)):
+async def delete_service(
+        session: SessionDep,
+        service_for_delete=GetServiceOr404Dep,
+        request_id=Depends(get_request_id)
+):
     await reference_book.service_delete(session, service=service_for_delete, request_id=request_id)
     return
+
 
 router.include_router(service_router)

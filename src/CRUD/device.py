@@ -1,10 +1,7 @@
-import ipaddress
-
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 
 from src.models.device import Device
-from src.models.network import Network
 from src.models.reference_book import Service
 from src.core.logger import logger
 from src.schemas.device import DeviceBase, DeviceUpdate, DeviceCreate
@@ -30,7 +27,8 @@ async def device_update(
         request_id: str,
 ) -> DeviceBase:
     logger.info(f'[{request_id}] start handling')
-    device.name = device_for_update.name
+    device.name = device_for_update.name if device_for_update.name else device.name
+    device.service_id = device_for_update.service if device_for_update.service else device.service_id
     session.commit()
     session.refresh(device)
     logger.info(f'[{request_id}] finished handling')
@@ -73,3 +71,11 @@ async def device_create(
     session.refresh(device_obj)
 
     return device_obj.to_base_model()
+
+
+async def device_add_network(
+        session: Session,
+        device: Device,
+        request_id: int,
+):
+    pass

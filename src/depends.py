@@ -60,7 +60,7 @@ class GetDeviceOr404:
         return device
 
 
-GetDeviceOr404Dep= Depends(GetDeviceOr404())
+GetDeviceOr404Dep = Depends(GetDeviceOr404())
 
 
 def get_params(offset: int = 0, limit: int = 100):

@@ -4,7 +4,6 @@ from pydantic import BaseModel
 from datetime import datetime
 
 from src.schemas.network import NetworkBase
-from src.schemas.reference_book import ServiceBase
 
 
 class DeviceBase(BaseModel):
@@ -21,11 +20,11 @@ class DeviceBase(BaseModel):
 
 
 class DeviceUpdate(BaseModel):
-    name: str
+    name: Optional[str] = None
+    service: Optional[int] = None
 
 
 class DeviceCreate(BaseModel):
     name: str
     service: Optional[int] = None
     interfaces: List[Optional[int]]
-

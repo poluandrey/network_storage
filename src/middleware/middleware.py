@@ -31,7 +31,8 @@ class RequestLoggerMiddleware(BaseHTTPMiddleware):
             username = request.user.username
 
         logger.info(
-            f'[{request_uuid}] request url: {url} query params: {query_params} user: {username} headers: {request.headers}'
+            f'[{request_uuid}] request url: {url} query params: {query_params}'
+            f' user: {username} headers: {request.headers}'
         )
         response = await call_next(request)
         return response

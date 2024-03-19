@@ -13,4 +13,3 @@ class Service(ServiceBase):
 
     class Config:
         orm_model = True
-

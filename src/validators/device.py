@@ -1,6 +1,6 @@
 import ipaddress
 from dataclasses import dataclass
-from typing import List, Tuple, Type
+from typing import List, Type
 
 from sqlalchemy.orm import Session
 
