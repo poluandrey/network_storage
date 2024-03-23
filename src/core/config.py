@@ -18,6 +18,8 @@ class Settings(BaseSettings):
     ALGORITHM: str
     ACCESS_TOKEN_EXPIRE_MINUTES: int
 
+    LOGGER_CONFIG: str = f'{BASE_DIR}/logging.conf'
+
     @computed_field
     @property
     def SQLALCHEMY_DATABASE_URI(self) -> str:
@@ -36,4 +38,3 @@ class Settings(BaseSettings):
 
 
 settings = Settings()
-print(settings.ACCESS_TOKEN_EXPIRE_MINUTES)

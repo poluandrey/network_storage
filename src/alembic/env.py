@@ -20,6 +20,8 @@ if config.config_file_name is not None:
 # for 'autogenerate' support
 from src.models.network import Base
 from src.models.user import Base as UserBase
+from src.models.device import Base as DeviceBase
+from src.models.reference_book import Base as RefBookBase
 
 target_metadata = Base.metadata
 # target_metadata = None

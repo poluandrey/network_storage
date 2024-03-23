@@ -19,6 +19,7 @@ ipaddresses = "^0.0.2"
 python-multipart = "^0.0.9"
 python-jose = {extras = ["cryptography"], version = "^3.3.0"}
 passlib = {extras = ["bcrypt"], version = "^1.7.4"}
+sentry-sdk = {extras = ["fastapi"], version = "^1.43.0"}
 
 
 [tool.poetry.group.test.dependencies]

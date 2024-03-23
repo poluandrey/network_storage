@@ -1,8 +1,7 @@
 from datetime import datetime
 from typing import List
 
-from pydantic import BaseModel
-from pydantic import networks
+from pydantic import BaseModel, networks
 
 
 class NetworkBase(BaseModel):
@@ -31,3 +30,8 @@ class NetworkCreate(BaseModel):
     network: networks.IPv4Network
     parent_id: int | None
     comment: str | None = None
+
+
+class NetworkSplit(BaseModel):
+    networks: List[NetworkBase | None] = []
+    count: int

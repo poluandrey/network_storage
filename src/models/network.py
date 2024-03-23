@@ -1,5 +1,5 @@
 from sqlalchemy import Column, DateTime, ForeignKey, Integer, String
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, Mapped
 from sqlalchemy.sql import func
 
 from src.database.base import Base
@@ -27,6 +27,7 @@ class Network(Base):
         passive_deletes=True,
         back_populates='sub_networks'
     )
+    device: Mapped['Device'] = relationship(secondary='network_interface', back_populates='interfaces')
 
     def __str__(self) -> str:
         return self.network
