@@ -4,8 +4,8 @@ from sqlalchemy.orm import Session
 from src.models.device import Device
 from src.models.reference_book import Service
 from src.core.logger import logger
-from src.schemas.device import DeviceBase, DeviceUpdate, DeviceCreate
-from src.validators.device import device_create_network_validator
+from src.schemas.device import DeviceBase, DeviceUpdate, DeviceCreate, DeviceInterface
+from src.validators.device import NetworkInterfaceValidator
 
 
 async def devices_get(session: Session, request_id: str, limit: int, offset: int):
@@ -49,21 +49,13 @@ async def device_create(
         if not service:
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail='service does not exists')
 
-    validate_data = device_create_network_validator(device.interfaces)
+    network_validator = NetworkInterfaceValidator()
+    network_validator.validate(session=session, networks_id=device.interfaces)
+    network_validator.raise_error()
 
-    if validate_data.not_exists_interfaces:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail=f'networks does not exists: {validate_data.not_exists_interfaces}'
-        )
+    validated_data = network_validator.data.valid_interfaces
 
-    if validate_data.invalid_interfaces:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail=f'invalid networks for host: {validate_data.valid_interfaces}'
-        )
-
-    device_obj.interfaces = validate_data.valid_interfaces
+    device_obj.interfaces = validated_data
     device_obj.service = service
 
     session.add(device_obj)
@@ -73,9 +65,17 @@ async def device_create(
     return device_obj.to_base_model()
 
 
-async def device_add_network(
+async def device_add_networks(
         session: Session,
         device: Device,
-        request_id: int,
-):
-    pass
+        networks_id: DeviceInterface,
+) -> DeviceBase:
+
+    validator = NetworkInterfaceValidator()
+    validator.validate(session=session, networks_id=networks_id.networks_id)
+    validator.raise_error()
+    validated_data = validator.data.valid_interfaces
+
+    device.interfaces.extend(validated_data)
+    session.commit()
+    return device.to_base_model()

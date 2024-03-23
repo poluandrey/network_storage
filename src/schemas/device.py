@@ -28,3 +28,7 @@ class DeviceCreate(BaseModel):
     name: str
     service: Optional[int] = None
     interfaces: List[Optional[int]]
+
+
+class DeviceInterface(BaseModel):
+    networks_id: List[int]

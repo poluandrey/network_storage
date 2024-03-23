@@ -19,6 +19,9 @@ class Device(Base):
     interfaces: Mapped[List['Network']] = relationship(secondary='network_interface', back_populates='device')
     service = relationship('Service', back_populates='devices')
 
+    def __repr__(self):
+        return f'<Device> {self.name}'
+
     def to_base_model(self):
         return DeviceBase(
             id=self.id,
