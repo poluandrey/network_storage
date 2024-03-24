@@ -12,6 +12,8 @@ services:
       - .env
     networks:
       - network_storage
+    links:
+      - database
 
   database:
     image: postgres:15-alpine
