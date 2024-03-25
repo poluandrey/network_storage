@@ -16,4 +16,4 @@ RUN poetry install --no-root --no-dev
 
 COPY . .
 
-CMD poetry run uvicorn src.app:app --host 0.0.0.0 --port $APP_PORT --ssl-keyfile=$SSL_KEY_FILE --certfile=$SSL_CERT_FILE
+CMD poetry run uvicorn src.app:app --host 0.0.0.0 --port $APP_PORT --ssl-keyfile $SSL_KEY_FILE --ssl-certfile $SSL_CERT_FILE
