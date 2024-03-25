@@ -1,6 +1,7 @@
 import sentry_sdk
 from fastapi import FastAPI
 from starlette.middleware.authentication import AuthenticationMiddleware
+from starlette.middleware.httpsredirect import HTTPSRedirectMiddleware
 
 from src.core.config import settings
 from src.middleware.middleware import (JWTAuthMiddleware,
@@ -20,6 +21,7 @@ app = FastAPI(
     title=settings.PROJECT_NAME,
 )
 
+app.add_middleware(HTTPSRedirectMiddleware)
 app.add_middleware(RequestLoggerMiddleware)
 app.add_middleware(AuthenticationMiddleware, backend=JWTAuthMiddleware())
 
