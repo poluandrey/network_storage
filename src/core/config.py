@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from pydantic import PostgresDsn, computed_field
+from pydantic import PostgresDsn, computed_field, Extra
 from pydantic_settings import BaseSettings
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -35,6 +35,7 @@ class Settings(BaseSettings):
     class Config:
         case_sensitive = True
         env_file = f'{BASE_DIR}/.env'
+        extra = Extra.allow
 
 
 settings = Settings()

@@ -1,11 +1,12 @@
 version: "3.8"
 
 services:
-
   web:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
-      - 8008:8000
+      - "${HOST_PORT}:${APP_PORT}"  # Use APP_PORT from .env file
     depends_on:
       - database
     env_file:
