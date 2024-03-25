@@ -298,6 +298,49 @@ pycodestyle = ">=2.11.0,<2.12.0"
 pyflakes = ">=3.2.0,<3.3.0"
 
 [[package]]
+name = "flake8-clean-block"
+version = "0.1.2"
+description = "A flake8 plugin that enforces a blank line after if/for/while/with/try blocks"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "flake8_clean_block-0.1.2-py2.py3-none-any.whl", hash = "sha256:9684c26a6b087e25f73966fe8f4a38f6abb3e9737a9f781140115e0e2c14a93c"},
+    {file = "flake8_clean_block-0.1.2.tar.gz", hash = "sha256:0a1f8a58be210a013715810a78dda029a65660373f585b7e14e36c3b85c7791d"},
+]
+
+[package.dependencies]
+flake8 = ">=4"
+
+[[package]]
+name = "flake8-print"
+version = "5.0.0"
+description = "print statement checker plugin for flake8"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "flake8-print-5.0.0.tar.gz", hash = "sha256:76915a2a389cc1c0879636c219eb909c38501d3a43cc8dae542081c9ba48bdf9"},
+    {file = "flake8_print-5.0.0-py3-none-any.whl", hash = "sha256:84a1a6ea10d7056b804221ac5e62b1cee1aefc897ce16f2e5c42d3046068f5d8"},
+]
+
+[package.dependencies]
+flake8 = ">=3.0"
+pycodestyle = "*"
+
+[[package]]
+name = "flake8-quotes"
+version = "3.4.0"
+description = "Flake8 lint for quotes."
+optional = false
+python-versions = "*"
+files = [
+    {file = "flake8-quotes-3.4.0.tar.gz", hash = "sha256:aad8492fb710a2d3eabe68c5f86a1428de650c8484127e14c43d0504ba30276c"},
+]
+
+[package.dependencies]
+flake8 = "*"
+setuptools = "*"
+
+[[package]]
 name = "future"
 version = "1.0.0"
 description = "Clean single-source support for Python 3 and 2"
@@ -605,6 +648,20 @@ argon2 = ["argon2-cffi (>=18.2.0)"]
 bcrypt = ["bcrypt (>=3.1.0)"]
 build-docs = ["cloud-sptheme (>=1.10.1)", "sphinx (>=1.6)", "sphinxcontrib-fulltoc (>=1.2.0)"]
 totp = ["cryptography"]
+
+[[package]]
+name = "pep8-naming"
+version = "0.13.3"
+description = "Check PEP-8 naming conventions, plugin for flake8"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "pep8-naming-0.13.3.tar.gz", hash = "sha256:1705f046dfcd851378aac3be1cd1551c7c1e5ff363bacad707d43007877fa971"},
+    {file = "pep8_naming-0.13.3-py3-none-any.whl", hash = "sha256:1a86b8c71a03337c97181917e2b472f0f5e4ccb06844a0d6f0a33522549e7a80"},
+]
+
+[package.dependencies]
+flake8 = ">=5.0.0"
 
 [[package]]
 name = "psycopg"
@@ -1070,6 +1127,22 @@ starlite = ["starlite (>=1.48)"]
 tornado = ["tornado (>=5)"]
 
 [[package]]
+name = "setuptools"
+version = "69.2.0"
+description = "Easily download, build, install, upgrade, and uninstall Python packages"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "setuptools-69.2.0-py3-none-any.whl", hash = "sha256:c21c49fb1042386df081cb5d86759792ab89efca84cf114889191cd09aacc80c"},
+    {file = "setuptools-69.2.0.tar.gz", hash = "sha256:0ff4183f8f42cd8fa3acea16c45205521a4ef28f73c6391d8a25e92893134f2e"},
+]
+
+[package.extras]
+docs = ["furo", "jaraco.packaging (>=9.3)", "jaraco.tidelift (>=1.4)", "pygments-github-lexers (==0.0.5)", "rst.linker (>=1.9)", "sphinx (<7.2.5)", "sphinx (>=3.5)", "sphinx-favicon", "sphinx-inline-tabs", "sphinx-lint", "sphinx-notfound-page (>=1,<2)", "sphinx-reredirects", "sphinxcontrib-towncrier"]
+testing = ["build[virtualenv]", "filelock (>=3.4.0)", "importlib-metadata", "ini2toml[lite] (>=0.9)", "jaraco.develop (>=7.21)", "jaraco.envs (>=2.2)", "jaraco.path (>=3.2.0)", "mypy (==1.9)", "packaging (>=23.2)", "pip (>=19.1)", "pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-cov", "pytest-enabler (>=2.2)", "pytest-home (>=0.5)", "pytest-mypy (>=0.9.1)", "pytest-perf", "pytest-ruff (>=0.2.1)", "pytest-timeout", "pytest-xdist (>=3)", "tomli", "tomli-w (>=1.0.0)", "virtualenv (>=13.0.0)", "wheel"]
+testing-integration = ["build[virtualenv] (>=1.0.3)", "filelock (>=3.4.0)", "jaraco.envs (>=2.2)", "jaraco.path (>=3.2.0)", "packaging (>=23.2)", "pytest", "pytest-enabler", "pytest-xdist", "tomli", "virtualenv (>=13.0.0)", "wheel"]
+
+[[package]]
 name = "six"
 version = "1.16.0"
 description = "Python 2 and 3 compatibility utilities"
@@ -1255,4 +1328,4 @@ standard = ["colorama (>=0.4)", "httptools (>=0.5.0)", "python-dotenv (>=0.13)",
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "6e428376e2d37ced472984b05437c0ac9c531ac787fc7bdcd26120af3f7dd892"
+content-hash = "483d51dc87746eed9c001dfa73abe5e21bd28c2593061230376999c4eeec022f"

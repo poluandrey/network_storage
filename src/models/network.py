@@ -16,13 +16,13 @@ class Network(Base):
     last_update = Column(DateTime(timezone=True), onupdate=func.now())
 
     sub_networks = relationship(
-        "Network",
+        'Network',
         remote_side=[parent_id],
         back_populates='parent_network',
         passive_deletes=True
     )
     parent_network = relationship(
-        "Network",
+        'Network',
         remote_side=[id],
         passive_deletes=True,
         back_populates='sub_networks'

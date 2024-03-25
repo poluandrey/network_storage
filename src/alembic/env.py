@@ -10,8 +10,6 @@ from src.core.config import settings
 config = context.config
 
 config.set_main_option('sqlalchemy.url', settings.SQLALCHEMY_DATABASE_URI)
-print(settings.SQLALCHEMY_DATABASE_URI)
-print(config.get_section_option(section='alembic', name='sqlalchemy.url'))
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.

@@ -1,16 +1,16 @@
 from datetime import datetime
-from typing import List
+from typing import List, Optional
 
-from pydantic import BaseModel, networks
+from pydantic import BaseModel, networks, PositiveInt
 
 
 class NetworkBase(BaseModel):
     id: int
     network: str
-    parent_id: int | None = None
-    comment: str | None = None
+    parent_id: int | None
+    comment: str | None
     create_at: datetime
-    last_update: datetime | None = None
+    last_update: datetime | None
 
     class Config:
         orm_model = True
@@ -28,10 +28,10 @@ class NetworkRead(BaseModel):
 
 class NetworkCreate(BaseModel):
     network: networks.IPv4Network
-    parent_id: int | None
-    comment: str | None = None
+    parent_id: Optional[PositiveInt] = None
+    comment: Optional[str] = None
 
 
 class NetworkSplit(BaseModel):
-    networks: List[NetworkBase | None] = []
+    networks: List[Optional[NetworkBase]] = []
     count: int

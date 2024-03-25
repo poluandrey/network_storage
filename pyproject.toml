@@ -26,6 +26,13 @@ sentry-sdk = {extras = ["fastapi"], version = "^1.43.0"}
 flake8 = "^7.0.0"
 isort = "^5.13.2"
 mypy = "^1.8.0"
+flake8-print = "^5.0.0"
+flake8-clean-block = "^0.1.2"
+flake8-quotes = "^3.4.0"
+
+
+[tool.poetry.group.pep8-naming.dependencies]
+pep8-naming = "^0.13.3"
 
 [build-system]
 requires = ["poetry-core"]

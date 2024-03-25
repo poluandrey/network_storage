@@ -123,6 +123,7 @@ async def network_split_by_host(session: SessionDep, network: Network, request_i
 
     for host in created_hosts:
         session.refresh(host)
+
     logger.info(f'[{request_id} host: {created_hosts} was create')
     logger.info(f'[{request_id}] finished handling')
     return NetworkSplit(
@@ -154,6 +155,7 @@ async def network_split(session: SessionDep, network: Network, network_prefix: i
         return NetworkSplit(
             count=0
         )
+
     session.commit()
     if isinstance(created_networks, Network):
         session.refresh(created_networks)
@@ -166,6 +168,7 @@ async def network_split(session: SessionDep, network: Network, network_prefix: i
 
     for network in created_networks:
         session.refresh(network)
+
     logger.info(f'[{request_id}] finished handling')
     return NetworkSplit(
         networks=created_networks,

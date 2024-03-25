@@ -4,7 +4,7 @@ from pydantic import PostgresDsn, computed_field
 from pydantic_settings import BaseSettings
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
-print(BASE_DIR)
+
 
 class Settings(BaseSettings):
     PROJECT_NAME: str
@@ -22,9 +22,9 @@ class Settings(BaseSettings):
 
     @computed_field
     @property
-    def SQLALCHEMY_DATABASE_URI(self) -> str:
+    def SQLALCHEMY_DATABASE_URI(self) -> str: #ignore
         return str(PostgresDsn.build(
-            scheme="postgresql+psycopg",
+            scheme='postgresql+psycopg',
             username=self.POSTGRES_USER,
             password=self.POSTGRES_PASSWORD,
             host=self.POSTGRES_SERVER,

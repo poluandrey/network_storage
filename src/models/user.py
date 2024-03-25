@@ -3,7 +3,7 @@ from sqlalchemy import Boolean, Column, DateTime, Integer, String
 
 from src.database.base import Base
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+pwd_context = CryptContext(schemes=['bcrypt'], deprecated='auto')
 
 
 class User(Base):
