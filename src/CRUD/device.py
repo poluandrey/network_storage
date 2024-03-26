@@ -40,6 +40,7 @@ async def device_create(
         device: DeviceCreate,
         request_id: str,
 ):
+    service = None
     device_obj = Device(
         name=device.name
     )
