@@ -21,7 +21,7 @@ app = FastAPI(
     title=settings.PROJECT_NAME,
 )
 
-app.add_middleware(HTTPSRedirectMiddleware)
+# app.add_middleware(HTTPSRedirectMiddleware)
 app.add_middleware(RequestLoggerMiddleware)
 app.add_middleware(AuthenticationMiddleware, backend=JWTAuthMiddleware())
 

@@ -16,8 +16,10 @@ services:
     links:
       - database
     volumes:
-      - /etc/letsencrypt:/etc/letsencrypt
-
+      - /etc/letsencrypt/archive/network-storage.ru/:/app/certs  # Mount SSL certificates from host
+        # environment:
+        # SSL_KEY_FILE: "/app/certs/privkey.pem"
+        # SSL_CERT_FILE: "/app/certs/fullchain.pem"
   database:
     image: postgres:15-alpine
     volumes:
